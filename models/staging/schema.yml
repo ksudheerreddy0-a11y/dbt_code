@@ -12,4 +12,47 @@ sources:
       - name: stg_items
       - name: stg_supplies
       - name: stg_products
-      
+      - name: orders
+      - name: customers
+
+  # models with tests
+models:
+  - name: customers
+    description: "Table containing customer information"
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        tests:
+          - unique
+          - not_null
+    config:
+      materialized: view
+      alias: customers_view
+
+  - name: orders
+    description: "Table containing customer orders"
+    columns:
+      - name: order_id
+        description: "Unique order identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Foreign key reference to customers table"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('customers')
+              field: customer_id
+
+      - name: order_status
+        description: "Current status of the order"
+        tests:
+          - accepted_values:
+              values: ['pending', 'shipped', 'delivered', 'canceled']
+
+    config:
+      materialized: view
+      alias: orders_view
+    
