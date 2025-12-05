@@ -52,7 +52,5 @@ models:
           - accepted_values:
               values: ['pending', 'shipped', 'delivered', 'canceled']
 
-    config:
-      materialized: view
-      alias: orders_view
+   
     
